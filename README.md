@@ -24,17 +24,17 @@ If you want to test it offline in chrome, run with chrome
 
 Libraries used are:
 
-BigInteger (for Mnemonic words, http://peterolson.github.io/BigInteger.js/)
-clipboard (for copy to clipboard, https://clipboardjs.com/)
-entropy-collector (for mouse entropy, https://github.com/vibornoff/entropy-collector.js)
-notifier (for UI notifications, http://rlemon.github.io/Notifier.js/)
-seedrandom (for seeding with entropy, https://github.com/davidbau/seedrandom)
+* BigInteger (for Mnemonic words, http://peterolson.github.io/BigInteger.js/)
+* clipboard (for copy to clipboard, https://clipboardjs.com/)
+* entropy-collector (for mouse entropy, https://github.com/vibornoff/entropy-collector.js)
+* notifier (for UI notifications, http://rlemon.github.io/Notifier.js/)
+* seedrandom (for seeding with entropy, https://github.com/davidbau/seedrandom)
 
 And for the paper wallet generator (inspired by Aran Cauchi's
 https://github.com/arancauchi/IOTA-Paper-Wallet)
 
-iota.lib.js (for receive address, https://github.com/iotaledger/iota.lib.js)
-qrious (for wallet QR codes, https://github.com/neocotic/qrious)
+* iota.lib.js (for receive address, https://github.com/iotaledger/iota.lib.js)
+* qrious (for wallet QR codes, https://github.com/neocotic/qrious)
 
 Copyright © 2017. All rights reserved. Offline copies for personal use
 are permitted.
