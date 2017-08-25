@@ -1,4 +1,5 @@
 window.done = false
+window.workersAvailable =	typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol);
 
 EntropyCollector.start()
 
@@ -38,7 +39,7 @@ function doneGenerating(seed) {
   generatePaperWalletPrep("Generating based on seed...");
   updateWalletOutputs("Generating based on seed...", true);
 
-	if (typeof(Worker) !== "undefined") {
+	if (window.workersAvailable) {
 		var worker = new Worker('jscript/all-wallet.mini.js');
 
 		worker.addEventListener('message', function(e) {
@@ -48,8 +49,10 @@ function doneGenerating(seed) {
 		}, false);
 		worker.postMessage(seed);
 	} else {
-    generatePaperWalletPrep("Use Chrome, Ff, or IE10 to enable paper wallet...");
-    updateWalletOutputs("Use Chrome, Ff, or IE10 to enable paper wallet...", true);
+    var tag = document.createElement("script");
+		tag.type = 'text/javascript';
+		tag.src = "jscript/all-wallet.mini.js";
+		document.head.appendChild(tag);
 	}
 }
 
@@ -98,18 +101,29 @@ function decodeWords() {
 // Withdraws entropy from the buffer.
 function randomTrytes(max, length) {
   var array = getAllResults(max);
+  var array2 = [];
   var visitedHash = [];
   var tokens = tryteTokens();
   var result = [];
   var newindex;
-  Math.seedrandom(array[max] + (new Date()).getTime());
+	if (window.crypto && window.crypto.getRandomValues) {
+    var sysRandArray = new Uint16Array(1);
+  	window.crypto.getRandomValues(sysRandArray);
+  	Math.seedrandom(array[max] + (new Date()).getTime() + sysRandArray[0]);
+
+    var array2 = new Uint32Array(array.length);
+  	window.crypto.getRandomValues(array2);
+	} else {
+  	Math.seedrandom(array[max] + (new Date()).getTime() + Math.random);
+    var array2 = array;
+  }
 
   for (var i = 0; i < length; i++) {
     result.push(tokens[Math.floor(Math.random() * tokens.length)]);
     do {
-      newindex = array[Math.floor(Math.random() * max * 2)]
-    } while (visitedHash[newindex])
-    Math.seedrandom(newindex + result.join(""));
+      newIndexSeed = array2[Math.floor(Math.random() * max * 2)]
+    } while (visitedHash[newIndexSeed])
+    Math.seedrandom(newIndexSeed + result.join(""));
   }
 
   return result.join("");
@@ -179,8 +193,6 @@ function seedFromWordList(words) {
   }
 
   array.reverse(); // Needed by bigInt
-  console.log(array);
-  console.log(array.length);
   nr = bigInt.fromArray(array, window.dictionary.length);
   var string = toTryteString(nr);
   return string;

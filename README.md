@@ -19,9 +19,6 @@ The mnemonic words are those in the standard BIP32 list.
 
 The interesting bits of code are inside jscript/iotaseed.js and iotawallet.js
 
-If you want to test it offline in chrome, run with chrome
---allow-file-access-from-files, to make the paper wallet worker work.
-
 Libraries used are:
 
 * BigInteger (for Mnemonic words, http://peterolson.github.io/BigInteger.js/)

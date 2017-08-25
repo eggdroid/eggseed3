@@ -8,13 +8,24 @@ function generateReceiving(seed, wordList) {
   options.checksum = true;
   options.total = 1;
   iota.api.getNewAddress(seed, options, function(e, address) {
-    self.postMessage(address[0]);
+    if (window.workersAvailable) {
+      self.postMessage(address[0]);
+    } else {
+      generatePaperWallet(seed, address[0], wordList);
+      updateWalletOutputs(address);
+    }
   });
 }
 
-self.addEventListener('message', function(e) {
-	var parts = e.data.split(" ");
-  var seed = parts[0];
-	var wordList = parts.slice(1, -1).join(" ");
-	generateReceiving(seed, wordList);
-}, false);
+if (window.workersAvailable) {
+  self.addEventListener('message', function(e) {
+  	var parts = e.data.split(" ");
+    var seed = parts[0];
+  	var wordList = parts.slice(1, -1).join(" ");
+  	window.generateReceiving(seed, wordList);
+  }, false);
+} else {
+  var seed = document.getElementById("output").innerHTML;
+  var wordList = document.getElementById("outputWords").innerHTML.split(" ");
+  generateReceiving(seed, wordList);
+}
