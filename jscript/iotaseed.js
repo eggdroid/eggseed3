@@ -1,5 +1,4 @@
 window.done = false
-window.workersAvailable = typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol);
 
 EntropyCollector.start()
 
@@ -39,7 +38,7 @@ function doneGenerating(seed) {
   generatePaperWalletPrep("Generating based on seed...");
   updateWalletOutputs("Generating based on seed...", true);
 
-  if (window.workersAvailable) {
+  if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
     var worker = new Worker('jscript/all-wallet.mini.js');
 
     worker.addEventListener('message', function(e) {

@@ -11,7 +11,7 @@ function generateReceiving(seed, wordList) {
   options.checksum = true;
   options.total = 1;
   iota.api.getNewAddress(seed, options, function(e, address) {
-    if (window.workersAvailable) {
+    if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
       self.postMessage(address[0]);
     } else {
       generatePaperWallet(seed, address[0], wordList);
@@ -20,12 +20,12 @@ function generateReceiving(seed, wordList) {
   });
 }
 
-if (window.workersAvailable) {
+if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
   self.addEventListener('message', function(e) {
-  	var parts = e.data.split(" ");
+    var parts = e.data.split(" ");
     var seed = parts[0];
-  	var wordList = parts.slice(1, -1).join(" ");
-  	window.generateReceiving(seed, wordList);
+    var wordList = parts.slice(1, -1).join(" ");
+    generateReceiving(seed, wordList);
   }, false);
 } else {
   var seed = document.getElementById("output").innerHTML;
