@@ -19,10 +19,10 @@ function generateReceiving(seed, wordList) {
 
 if (window.workersAvailable) {
   self.addEventListener('message', function(e) {
-  	var parts = e.data.split(" ");
+    var parts = e.data.split(" ");
     var seed = parts[0];
-  	var wordList = parts.slice(1, -1).join(" ");
-  	window.generateReceiving(seed, wordList);
+    var wordList = parts.slice(1, -1).join(" ");
+    window.generateReceiving(seed, wordList);
   }, false);
 } else {
   var seed = document.getElementById("output").innerHTML;

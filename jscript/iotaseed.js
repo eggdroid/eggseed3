@@ -1,5 +1,5 @@
 window.done = false
-window.workersAvailable =	typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol);
+window.workersAvailable = typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol);
 
 EntropyCollector.start()
 
@@ -39,25 +39,25 @@ function doneGenerating(seed) {
   generatePaperWalletPrep("Generating based on seed...");
   updateWalletOutputs("Generating based on seed...", true);
 
-	if (window.workersAvailable) {
-		var worker = new Worker('jscript/all-wallet.mini.js');
+  if (window.workersAvailable) {
+    var worker = new Worker('jscript/all-wallet.mini.js');
 
-		worker.addEventListener('message', function(e) {
+    worker.addEventListener('message', function(e) {
       var address = e.data;
       generatePaperWallet(seed, address, wordList);
       updateWalletOutputs(address);
-		}, false);
-		worker.postMessage(seed);
-	} else {
+    }, false);
+    worker.postMessage(seed);
+  } else {
     var tag = document.createElement("script");
-		tag.type = 'text/javascript';
-		tag.src = "jscript/all-wallet.mini.js";
-		document.head.appendChild(tag);
-	}
+    tag.type = 'text/javascript';
+    tag.src = "jscript/all-wallet.mini.js";
+    document.head.appendChild(tag);
+  }
 }
 
 function updateSeedOutputs(seed, seedWords, disable) {
-	disable = disable || false;
+  disable = disable || false;
 
   document.getElementById("restart").innerHTML = '<a href="" onClick="window.location.reload()">Start again</a>';
   document.getElementById('entropy').innerHTML = '100';
@@ -76,7 +76,7 @@ function updateSeedOutputs(seed, seedWords, disable) {
 }
 
 function updateWalletOutputs(address, disable) {
-	disable = disable || false;
+  disable = disable || false;
 
   var outputReceiving = document.getElementById("outputReceiving");
   outputReceiving.innerHTML = address;
@@ -106,15 +106,15 @@ function randomTrytes(max, length) {
   var tokens = tryteTokens();
   var result = [];
   var newindex;
-	if (window.crypto && window.crypto.getRandomValues) {
+  if (window.crypto && window.crypto.getRandomValues) {
     var sysRandArray = new Uint16Array(1);
-  	window.crypto.getRandomValues(sysRandArray);
-  	Math.seedrandom(array[max] + (new Date()).getTime() + sysRandArray[0]);
+    window.crypto.getRandomValues(sysRandArray);
+    Math.seedrandom(array[max] + (new Date()).getTime() + sysRandArray[0]);
 
     var array2 = new Uint32Array(array.length);
-  	window.crypto.getRandomValues(array2);
-	} else {
-  	Math.seedrandom(array[max] + (new Date()).getTime() + Math.random);
+    window.crypto.getRandomValues(array2);
+  } else {
+    Math.seedrandom(array[max] + (new Date()).getTime() + Math.random);
     var array2 = array;
   }
 
@@ -256,97 +256,97 @@ function enoughEntropy(events) {
 
 function generatePaperWalletPrep(text) {
   var imageCanvas = document.getElementById('imageCanvas');
-	var ctx = imageCanvas.getContext('2d');
+  var ctx = imageCanvas.getContext('2d');
   ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
-	ctx.font = "bold 48px sans-serif";
-	ctx.textAlign = "center";
-	ctx.fillText(text, 750, 275);
+  ctx.font = "bold 48px sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText(text, 750, 275);
 }
 
 function generatePaperWallet(seed, address, wordList) {
-    var imageCanvas = document.getElementById('imageCanvas');
-		var seedCanvas = document.getElementById('seedCanvas');
-		var addressCanvas = document.getElementById('addressCanvas');
+  var imageCanvas = document.getElementById('imageCanvas');
+  var seedCanvas = document.getElementById('seedCanvas');
+  var addressCanvas = document.getElementById('addressCanvas');
 
-		sQR = new QRious({
-				element: seedCanvas,
-				value: seed,
-				size: 300,
-				backgroundAlpha: 0
-		});
+  sQR = new QRious({
+    element: seedCanvas,
+    value: seed,
+    size: 300,
+    backgroundAlpha: 0
+  });
 
-		aQR = new QRious({
-				element: addressCanvas,
-				value: address,
-				size: 300,
-				backgroundAlpha: 0
-		});
+  aQR = new QRious({
+    element: addressCanvas,
+    value: address,
+    size: 300,
+    backgroundAlpha: 0
+  });
 
-	  var ctx = imageCanvas.getContext('2d');
-		ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+  var ctx = imageCanvas.getContext('2d');
+  ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
 
-		var bg = new Image;
-		bg.onload = function() {
-				ctx.save();
-				ctx.globalAlpha = 0.8;
-				ctx.drawImage(bg, 0, 0, imageCanvas.width, imageCanvas.height);
-				ctx.restore();
-				ctx.drawImage(addressCanvas, 1180, 180);
-				ctx.drawImage(seedCanvas, 20, 60);
+  var bg = new Image;
+  bg.onload = function() {
+    ctx.save();
+    ctx.globalAlpha = 0.8;
+    ctx.drawImage(bg, 0, 0, imageCanvas.width, imageCanvas.height);
+    ctx.restore();
+    ctx.drawImage(addressCanvas, 1180, 180);
+    ctx.drawImage(seedCanvas, 20, 60);
 
-				ctx.font = "bold 28px sans-serif";
-				ctx.textAlign = "center";
+    ctx.font = "bold 28px sans-serif";
+    ctx.textAlign = "center";
 
-				ctx.fillText("PRIVATE SEED", 170, 400);
+    ctx.fillText("PRIVATE SEED", 170, 400);
 
-				ctx.font = "bold 23px sans-serif";
-				ctx.textAlign = "left";
-				ctx.fillText(seed, 20, 40);
+    ctx.font = "bold 23px sans-serif";
+    ctx.textAlign = "left";
+    ctx.fillText(seed, 20, 40);
 
-				ctx.textAlign = "center";
-				ctx.font = "bold 28px sans-serif";
-				ctx.fillText("RECEIVING ADDRESS", 1330, 160);
+    ctx.textAlign = "center";
+    ctx.font = "bold 28px sans-serif";
+    ctx.fillText("RECEIVING ADDRESS", 1330, 160);
 
-				ctx.textAlign = "right";
-				ctx.font = "bold 23px sans-serif";
-				ctx.fillText(address, 1480, 520);
+    ctx.textAlign = "right";
+    ctx.font = "bold 23px sans-serif";
+    ctx.fillText(address, 1480, 520);
 
-				var img = new Image;
-				img.onload = function() {
-						ctx.drawImage(img, 400, 105, 60, 57);
-				};
-				img.src = "images/paper-logo.png";
+    var img = new Image;
+    img.onload = function() {
+      ctx.drawImage(img, 400, 105, 60, 57);
+    };
+    img.src = "images/paper-logo.png";
 
-				ctx.textAlign = "left";
-				ctx.font = "bold 60px sans-serif";
-				ctx.fillText("IOTASeed.io", 475, 155);
-				ctx.font = "bold 28px sans-serif";
-        var jump = 6;
-        var pixJump = 35;
-        for (i = 0; i * jump < wordList.length; i += 1) {
-			    ctx.fillText(wordList.slice(i * jump, i * jump + jump).join(" "), 400, 240 + i * pixJump);
-        }
-		};
-		bg.src = "images/paper-background.jpg";
+    ctx.textAlign = "left";
+    ctx.font = "bold 60px sans-serif";
+    ctx.fillText("IOTASeed.io", 475, 155);
+    ctx.font = "bold 28px sans-serif";
+    var jump = 6;
+    var pixJump = 35;
+    for (i = 0; i * jump < wordList.length; i += 1) {
+      ctx.fillText(wordList.slice(i * jump, i * jump + jump).join(" "), 400, 240 + i * pixJump);
+    }
+  };
+  bg.src = "images/paper-background.jpg";
 }
 
 function printWallet() {
-		window.print();
+  window.print();
 }
 
 window.onload = function() {
   window.lastPercentage = 0;
-	EntropyCollector.eventTarget.addEventListener('mousemove', updateEntropy);
+  EntropyCollector.eventTarget.addEventListener('mousemove', updateEntropy);
 
-	(new Clipboard('#copyButton')).on('success', function(e) {
-		Notifier.success("Copied to clipboard!");
-	});
-	(new Clipboard('#copyButtonWords')).on('success', function(e) {
-		Notifier.success("Copied to clipboard!");
-	});
-	(new Clipboard('#copyButtonReceiving')).on('success', function(e) {
-		Notifier.success("Copied to clipboard!");
-	});
+  (new Clipboard('#copyButton')).on('success', function(e) {
+    Notifier.success("Copied to clipboard!");
+  });
+  (new Clipboard('#copyButtonWords')).on('success', function(e) {
+    Notifier.success("Copied to clipboard!");
+  });
+  (new Clipboard('#copyButtonReceiving')).on('success', function(e) {
+    Notifier.success("Copied to clipboard!");
+  });
   Notifier.info("Move the mouse to generate randomness!");
 
   generatePaperWalletPrep("Paper wallet will appear after sufficient mouse movement");
