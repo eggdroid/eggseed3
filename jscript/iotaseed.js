@@ -113,7 +113,7 @@ function randomTrytes(max, length) {
     var array2 = new Uint32Array(array.length);
     window.crypto.getRandomValues(array2);
   } else {
-    Math.seedrandom(array[max] + (new Date()).getTime() + Math.random);
+    Math.seedrandom(array[max] + (new Date()).getTime() + Math.random());
     var array2 = array;
   }
 
