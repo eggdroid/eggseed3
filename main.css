@@ -49,15 +49,15 @@ a {
   color: #ffffff;
 }
 #paperWallet {
-  width: 700px;
+  width: 850px;
   height: 270px;
   left: 50%;
-	margin:0 auto;
+	margin: 0 auto;
 }
 canvas {
   border: 1px solid black;
   background-color: #FFF;
-  width: 700px;
+  width: 850px;
   height: 270px;
 }
 .mouse {

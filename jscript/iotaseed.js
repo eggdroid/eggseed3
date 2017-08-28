@@ -259,7 +259,7 @@ function generatePaperWalletPrep(text) {
   ctx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
   ctx.font = "bold 48px sans-serif";
   ctx.textAlign = "center";
-  ctx.fillText(text, 750, 275);
+  ctx.fillText(text, 850, 275);
 }
 
 function generatePaperWallet(seed, address, wordList) {
@@ -290,7 +290,7 @@ function generatePaperWallet(seed, address, wordList) {
     ctx.globalAlpha = 0.8;
     ctx.drawImage(bg, 0, 0, imageCanvas.width, imageCanvas.height);
     ctx.restore();
-    ctx.drawImage(addressCanvas, 1180, 180);
+    ctx.drawImage(addressCanvas, 1380, 180);
     ctx.drawImage(seedCanvas, 20, 60);
 
     ctx.font = "bold 28px sans-serif";
@@ -304,26 +304,26 @@ function generatePaperWallet(seed, address, wordList) {
 
     ctx.textAlign = "center";
     ctx.font = "bold 28px sans-serif";
-    ctx.fillText("RECEIVING ADDRESS", 1330, 160);
+    ctx.fillText("RECEIVING ADDRESS", 1530, 160);
 
     ctx.textAlign = "right";
     ctx.font = "bold 23px sans-serif";
-    ctx.fillText(address, 1480, 520);
+    ctx.fillText(address, 1680, 520);
 
     var img = new Image;
     img.onload = function() {
-      ctx.drawImage(img, 400, 105, 60, 57);
+      ctx.drawImage(img, 500, 95, 60, 57);
     };
     img.src = "images/paper-logo.png";
 
     ctx.textAlign = "left";
     ctx.font = "bold 60px sans-serif";
-    ctx.fillText("IOTASeed.io", 475, 155);
-    ctx.font = "bold 28px sans-serif";
+    ctx.fillText("IOTASeed.io", 575, 145);
+    ctx.font = "bold 32px sans-serif";
     var jump = 6;
-    var pixJump = 35;
+    var pixJump = 40;
     for (i = 0; i * jump < wordList.length; i += 1) {
-      ctx.fillText(wordList.slice(i * jump, i * jump + jump).join(" "), 400, 240 + i * pixJump);
+      ctx.fillText(wordList.slice(i * jump, i * jump + jump).join(" "), 500, 210 + i * pixJump);
     }
   };
   bg.src = "images/paper-background.jpg";
