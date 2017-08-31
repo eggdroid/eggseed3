@@ -46,8 +46,8 @@ function doneGenerating(seed) {
   updateWalletOutputs("Generating based on seed...", true);
 
   if (window.isIEx) {
-    generatePaperWalletPrep("Paper wallet does not work in IE, try Chrome or Firefox...");
-    updateWalletOutputs("Paper wallet does not work in IE, try Chrome or Firefox...", true);
+    generatePaperWalletPrep("Paper wallet does not work in IE, try Edge, Chrome, Firefox...");
+    updateWalletOutputs("Paper wallet does not work in IE, try Edge, Chrome or Firefox...", true);
   } else if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
     var worker = new Worker('jscript/all-wallet.mini.js');
 
