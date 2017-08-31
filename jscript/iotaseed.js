@@ -1,9 +1,16 @@
-window.done = false
+window.doneE = false
 
 EntropyCollector.start()
 
+window.isIEx = /*@cc_on!@*/false || !!document.documentMode; // Internet Explorer 6-11
+window.isIEe = !window.isIEx && !!window.StyleMedia; // or Edge 20+
+
 function updateEntropy() {
-  var numberOfEvents = 256
+  if (window.isIEx or window.isIEe) {
+    var numberOfEvents = 512;
+  } else {
+    var numberOfEvents = 256;
+  }
   var percentage = Math.floor((EntropyCollector.eventsCaptured / numberOfEvents) * 100);
   document.getElementById('entropy').innerHTML = percentage;
 
@@ -16,9 +23,9 @@ function updateEntropy() {
     window.lastPercentage = percentage;
   }
 
-  if (enoughEntropy(numberOfEvents) && !window.done) {
+  if (enoughEntropy(numberOfEvents) && !window.doneE) {
     generateSeed(numberOfEvents);
-    window.done = true;
+    window.doneE = true;
   }
 }
 
@@ -38,7 +45,10 @@ function doneGenerating(seed) {
   generatePaperWalletPrep("Generating based on seed...");
   updateWalletOutputs("Generating based on seed...", true);
 
-  if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
+  if (window.isIEx) {
+    generatePaperWalletPrep("Paper wallet does not work in IE, try Chrome or Firefox...");
+    updateWalletOutputs("Paper wallet does not work in IE, try Chrome or Firefox...", true);
+  } else if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
     var worker = new Worker('jscript/all-wallet.mini.js');
 
     worker.addEventListener('message', function(e) {
@@ -105,7 +115,7 @@ function randomTrytes(max, length) {
   var tokens = tryteTokens();
   var result = [];
   var newindex;
-  if (window.crypto && window.crypto.getRandomValues) {
+  if (!window.isIEx && !window.isIEe && window.crypto && window.crypto.getRandomValues) {
     var sysRandArray = new Uint16Array(1);
     window.crypto.getRandomValues(sysRandArray);
     Math.seedrandom(array[max] + (new Date()).getTime() + sysRandArray[0]);
@@ -129,10 +139,11 @@ function randomTrytes(max, length) {
 }
 
 function getAllResults(max) {
-  var partsArray = new Int32Array(EntropyCollector.buffer);
-  var array = new Int32Array(max * 2);
-  array.set(partsArray.slice(1, max + 1));
-  array.set(partsArray.slice(1025, max + 1025), max);
+  var partsArrayIE = new Int32Array(EntropyCollector.buffer);
+  var partsArray = Array.prototype.slice.call(partsArrayIE);
+  var array = [];
+  array.concat(partsArray.slice(1, max + 1));
+  array.concat(partsArray.slice(1025, max + 1025), max);
   return array
 }
 
@@ -249,8 +260,8 @@ function fromTryteString(string) {
 }
 
 // Do we have enough entropy events right now?
-function enoughEntropy(events) {
-  return events < EntropyCollector.eventsCaptured;
+function enoughEntropy(requiredEvents) {
+  return requiredEvents < EntropyCollector.eventsCaptured;
 }
 
 function generatePaperWalletPrep(text) {
