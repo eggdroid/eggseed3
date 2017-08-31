@@ -20,11 +20,7 @@ function generateReceiving(seed, wordList) {
   });
 }
 
-var isIE = false;
-if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-	isIE = true;
-}
-if (!isIE && typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
+if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
   self.addEventListener('message', function(e) {
     var parts = e.data.split(" ");
     var seed = parts[0];

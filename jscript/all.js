@@ -4782,12 +4782,12 @@ EntropyCollector.start()
 window.isIEx = /*@cc_on!@*/false || !!document.documentMode; // Internet Explorer 6-11
 window.isIEe = !window.isIEx && !!window.StyleMedia; // or Edge 20+
 
-if (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') > 0) {
-  window.isIEx = true;
-}
-
 function updateEntropy() {
-  var numberOfEvents = 256
+  if (window.isIEx || window.isIEe) {
+    var numberOfEvents = 512;
+  } else {
+    var numberOfEvents = 256;
+  }
   var percentage = Math.floor((EntropyCollector.eventsCaptured / numberOfEvents) * 100);
   document.getElementById('entropy').innerHTML = percentage;
 

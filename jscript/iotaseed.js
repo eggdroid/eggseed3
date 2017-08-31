@@ -6,7 +6,7 @@ window.isIEx = /*@cc_on!@*/false || !!document.documentMode; // Internet Explore
 window.isIEe = !window.isIEx && !!window.StyleMedia; // or Edge 20+
 
 function updateEntropy() {
-  if (window.isIEx or window.isIEe) {
+  if (window.isIEx || window.isIEe) {
     var numberOfEvents = 512;
   } else {
     var numberOfEvents = 256;
