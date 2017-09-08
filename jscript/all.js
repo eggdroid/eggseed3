@@ -4918,12 +4918,15 @@ function randomTrytes(max, length) {
 function getAllResults(max) {
   var partsArrayIE = new Int32Array(EntropyCollector.buffer);
   var partsArray = Array.prototype.slice.call(partsArrayIE);
-  var arrayIE = new Int32Array(max * 2);
+  // IE arrays to normal arrays so slice works in IE
+  var arrayIE = new Int32Array(max * 2); // The bug was here
   arrayIE.set(partsArray.slice(1, max + 1));
   arrayIE.set(partsArray.slice(1025, max + 1025), max);
   array = Array.prototype.slice.call(arrayIE);
-  console.log(array);
-  return array
+  if (array.length < max) {
+    alert('Error! Check entropy');
+  }
+  return array;
 }
 
 function tryteTokens() {

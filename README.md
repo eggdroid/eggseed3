@@ -3,8 +3,9 @@ A pure client-side IOTA seed generator!
 
 The code behind http://iotaseed.io/.
 
-Should also work locally. Both through save page as, and when checked
-out from the git repo.
+Should also work locally. Both through 'Save Page As', and when checked
+out from the git repo. Though when using it for real, please stick to
+the stable version from the site.
 
 It is secure, using random data from the mouse and other entropy such
 as current time, to generate an IOTA seed.

@@ -146,7 +146,10 @@ function getAllResults(max) {
   arrayIE.set(partsArray.slice(1, max + 1));
   arrayIE.set(partsArray.slice(1025, max + 1025), max);
   array = Array.prototype.slice.call(arrayIE);
-  return array
+  if (array.length < max) {
+    alert('Error! Check entropy');
+  }
+  return array;
 }
 
 function tryteTokens() {
