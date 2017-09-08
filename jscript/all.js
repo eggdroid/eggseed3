@@ -4918,9 +4918,11 @@ function randomTrytes(max, length) {
 function getAllResults(max) {
   var partsArrayIE = new Int32Array(EntropyCollector.buffer);
   var partsArray = Array.prototype.slice.call(partsArrayIE);
-  var array = [];
-  array.concat(partsArray.slice(1, max + 1));
-  array.concat(partsArray.slice(1025, max + 1025), max);
+  var arrayIE = new Int32Array(max * 2);
+  arrayIE.set(partsArray.slice(1, max + 1));
+  arrayIE.set(partsArray.slice(1025, max + 1025), max);
+  array = Array.prototype.slice.call(arrayIE);
+  console.log(array);
   return array
 }
 

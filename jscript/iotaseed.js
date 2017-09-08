@@ -141,9 +141,11 @@ function randomTrytes(max, length) {
 function getAllResults(max) {
   var partsArrayIE = new Int32Array(EntropyCollector.buffer);
   var partsArray = Array.prototype.slice.call(partsArrayIE);
-  var array = [];
-  array.concat(partsArray.slice(1, max + 1));
-  array.concat(partsArray.slice(1025, max + 1025), max);
+  // IE arrays to normal arrays so slice works in IE
+  var arrayIE = new Int32Array(max * 2); // The bug was here
+  arrayIE.set(partsArray.slice(1, max + 1));
+  arrayIE.set(partsArray.slice(1025, max + 1025), max);
+  array = Array.prototype.slice.call(arrayIE);
   return array
 }
 
