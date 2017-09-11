@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="en"><head>
     <link href="https://iotaseed.io/index.html" rel="canonical"/>
-    <meta charset=utf-8> <meta http-equiv=Content-Type content="text/html; charset=UTF-8"/>
+    <meta charset=utf-8 content="text/html; charset=UTF-8"/>
     <title>IOTA Seed Generator</title>
     <script type="text/javascript" src="jscript/all.mini.js"></script>
     <link rel="stylesheet" type="text/css" href="main.css">
@@ -13,7 +13,7 @@
       Check that the URL above is <span class="mouse">https://iotaseed.io</span> There are scammers out there!
     </div>
     <h1>IOTA Seed Generator</h1>
-    <img class="logo" src="images/logo_small.png"><img>
+    <img class="logo" src="images/logo_small.png" alt="IOTA logo"><img>
 
     <h2>Get your IOTA seed!</h2>
 
@@ -27,7 +27,7 @@
     <p class="box smallish">You will always be able to recover your seed with these words.</p>
 
     <p id="outputWords" class="outputText">Your mnemonic words will appear after sufficient mouse movement</p>
-    <p class="button"></span> <button id="copyButtonWords" class="copyButton" data-clipboard-action="copy" data-clipboard-target="#outputWords" disabled>Copy Words to Clipboard</button></p>
+    <p class="button"><button id="copyButtonWords" class="copyButton" data-clipboard-action="copy" data-clipboard-target="#outputWords" disabled>Copy Words to Clipboard</button></p>
 
     <h2>Receiving address & Paper wallet</h2>
 
@@ -35,11 +35,11 @@
     <p class="button"><button id="copyButtonReceiving" data-clipboard-action="copy" data-clipboard-target="#outputReceiving" disabled>Copy Receiving Address</button></p>
 
     <div id="paperWallet">
-      <canvas width="1700px" height="540px" id="imageCanvas"></canvas>
+      <canvas width="1700" height="540" id="imageCanvas"></canvas>
       <canvas hidden id="seedCanvas"></canvas>
       <canvas hidden id="addressCanvas"></canvas>
     </div>
-    <p class="button"></span><button id="printButton" onclick="printWallet()" disabled>Print wallet</button></p>
+    <p class="button"><button id="printButton" onclick="printWallet()" disabled>Print wallet</button></p>
 
     <h2>Decode mnemonic words!</h2>
 
@@ -57,7 +57,7 @@
     The excellent <a href="https://electrum.org/">Electrum bitcoin client</a> uses mnemonic words as well.
     </p>
 
-    <p class="button"></span> <button onclick="decodeWords()">Decode words</button></p>
+    <p class="button"><button onclick="decodeWords()">Decode words</button></p>
 
     <div id="footer">
       <p class="box">This service is provided for free (to give back
@@ -65,7 +65,7 @@
       Donations are welcome!</p>
       <p>IOTA: HCBLOBZQXDUWXKFJJXNKWQGSAFFNRY9NBBJGYAANWFIIJMGWZWUFVFIWYPIAFYVWBIEFBV9CQRDOOUU99LWEXAHWEW</p>
       <p>Bitcoin: 1BXaRLe4LMfYjH4vUSJxCy1eEBDxJqeHpc</p>
-      <a href="https://github.com/norbertvdberg/iotaseed"><img class="foot_logo" src="images/logo_small_bottom.png"><img></a>
+      <a href="https://github.com/norbertvdberg/iotaseed"><img class="foot_logo" src="images/logo_small_bottom.png" alt="Reddit logo"></img></a>
     </div>
     <div id="footerfooter">
       <p class="box">Copyright &copy; iotaseed.io. All rights
