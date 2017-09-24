@@ -4923,7 +4923,7 @@ function getAllResults(max) {
   arrayIE.set(partsArray.slice(1, max + 1));
   arrayIE.set(partsArray.slice(1025, max + 1025), max);
   array = Array.prototype.slice.call(arrayIE);
-  if (array.length < max) {
+  if (array.length < max * 2 || array[0] == 0 || (array[0] == array[max] && array[0] == array[max * 2])) {
     alert('Error! Check entropy');
   }
   return array;
