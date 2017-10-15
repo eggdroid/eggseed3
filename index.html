@@ -12,6 +12,26 @@
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<script type="text/javascript">
+			window.onload = function() {
+				window.lastPercentage = 0;
+				window.isBulk = false;
+				EntropyCollector.eventTarget.addEventListener('mousemove', updateEntropy);
+
+				(new Clipboard('#copyButton')).on('success', function(e) {
+					Notifier.success("Copied to clipboard!");
+				});
+				(new Clipboard('#copyButtonWords')).on('success', function(e) {
+					Notifier.success("Copied to clipboard!");
+				});
+				(new Clipboard('#copyButtonReceiving')).on('success', function(e) {
+					Notifier.success("Copied to clipboard!");
+				});
+				Notifier.info("Move the mouse to generate randomness!");
+
+				generatePaperWalletPrep("Paper wallet will appear after sufficient mouse movement");
+			};
+    </script>
   </head>
   <body>
     <div id="header">
@@ -23,7 +43,7 @@
     <h2>Get your IOTA seed!</h2>
 
     <p class="box"><span class="mouse">Move the mouse to generate
-      randomness.</span> <span id="entropy" class="done">0</span><span class="done">% done.</span> <span id="restart" class="smallish"></span></p>
+      randomness.</span> <span id="entropy" class="done">0</span><span class="done">% done.</span> <span id="restart" class="smallish"> </span> <span class="smallish"><a href="https://bulk.iotaseed.io">Seeds in bulk here</a>.</span></p>
     <p id="output" class="outputText">Your seed will appear after sufficient mouse movement</p>
     <p class="button"><button id="copyButton" data-clipboard-action="copy" data-clipboard-target="#output" disabled>Copy Seed to Clipboard</button></p>
 
@@ -40,11 +60,11 @@
     <p class="button"><button id="copyButtonReceiving" data-clipboard-action="copy" data-clipboard-target="#outputReceiving" disabled>Copy Receiving Address</button></p>
 
     <div id="paperWallet">
-      <canvas width="1700" height="540" id="imageCanvas"></canvas>
-      <canvas hidden id="seedCanvas"></canvas>
-      <canvas hidden id="addressCanvas"></canvas>
+      <canvas width="1700" height="540" class="imageCanvasses"></canvas>
+      <canvas hidden class="seedCanvasses"></canvas>
+      <canvas hidden class="addressCanvasses"></canvas>
     </div>
-    <p class="button"><button id="printButton" onclick="printWallet()" disabled>Print wallet</button></p>
+    <p class="button"><button id="printButton" onclick="printWallet()" disabled>Print Wallet</button></p>
 
     <h2>Decode mnemonic words!</h2>
 

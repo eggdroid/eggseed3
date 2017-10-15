@@ -1,4 +1,4 @@
-function generateReceiving(seed, wordList) {
+function generateReceiving(seed, nr) {
   var iota = new window.IOTA()
   var options = {};
 
@@ -9,10 +9,10 @@ function generateReceiving(seed, wordList) {
   options.total = 1;
   iota.api.getNewAddress(seed, options, function(e, address) {
     if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
-      self.postMessage(address[0]);
+      self.postMessage(address[0], nr);
     } else {
-      generatePaperWallet(seed, address[0], wordList);
-      updateWalletOutputs(address);
+      generatePaperWallet(seed, address[0], nr);
+      updateWalletOutputs(address, nr);
     }
   });
 }
@@ -21,11 +21,13 @@ if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScop
   self.addEventListener('message', function(e) {
     var parts = e.data.split(" ");
     var seed = parts[0];
-    var wordList = parts.slice(1, -1).join(" ");
-    generateReceiving(seed, wordList);
+    var nr = parts[1]; 
+    generateReceiving(seed, nr);
   }, false);
 } else {
-  var seed = document.getElementById("output").innerHTML;
-  var wordList = document.getElementById("outputWords").innerHTML.split(" ");
-  generateReceiving(seed, wordList);
+  var seeds = document.getElementById("output").innerHTML.split("<br>");
+  console.log(seeds);
+  for (var i = 0; i < seeds.length; i++) {
+    generateReceiving(seeds[i], i);
+  }
 }

@@ -54,6 +54,13 @@ a {
   left: 50%;
 	margin: 0 auto;
 }
+#paperWallets {
+  width: 850px;
+  height: 3320px;
+  left: 50%;
+	margin: 0 auto;
+}
+
 canvas {
   border: 1px solid black;
   background-color: #FFF;
