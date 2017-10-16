@@ -181,10 +181,10 @@ textarea {
   body * {
     visibility: hidden;
   }
-  #paperWallet, #paperWallet * {
+  #paperWallet, #paperWallet, *#paperWallets, #paperWallets * {
     visibility: visible;
   }
-  #paperWallet {
+  #paperWallet, #paperWallets {
     position: absolute;
     left: 100px;
     top: 100px;

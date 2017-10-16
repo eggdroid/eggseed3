@@ -35,24 +35,17 @@
   </head>
   <body>
     <div id="header">
-      Check that the URL above is <span class="mouse">https://bulk.iotaseed.io</span> There are scammers out there!
+      Check that the URL above is <span class="mouse">https://iotaseed.io/bulk/</span> There are scammers out there!
     </div>
     <h1>Bulk IOTA Seed Generator</h1>
     <img class="logo" src="images/logo_small.png" alt="IOTA logo"/>
 
-    <h2>Get your IOTA seeds!</h2>
+    <h2>Get 12 IOTA seeds in one go!</h2>
 
     <p class="box"><span class="mouse">Move the mouse to generate
-      randomness.</span> <span id="entropy" class="done">0</span><span class="done">% done.</span> <span id="restart" class="smallish"></span> <span class="smallish"><a href="https://iotaseed.io">Normal site here</a></span></p>
+      randomness.</span> <span id="entropy" class="done">0</span><span class="done">% done.</span> <span id="restart" class="smallish"></span> <span class="smallish"><a href="https://iotaseed.io">Main page here</a>.</span></p>
     <p id="output" class="outputText">Your seeds will appear after sufficient mouse movement</p>
     <p class="button"><button id="copyButton" data-clipboard-action="copy" data-clipboard-target="#output" disabled>Copy Seeds to Clipboard</button></p>
-
-    <h2>Your seed encoded as mnemonic words</h2>
-
-    <p class="box smallish">You will always be able to recover your seeds with these words.</p>
-
-    <p id="outputWords" class="outputText">Mnemonic words for each seed will appear after sufficient mouse movement</p>
-    <p class="button"><button id="copyButtonWords" class="copyButton" data-clipboard-action="copy" data-clipboard-target="#outputWords" disabled>Copy Words to Clipboard</button></p>
 
     <h2>Receiving addresses & Paper wallets</h2>
 
@@ -100,7 +93,7 @@
     <p class="button"><button id="printButton" onclick="printWallet()" disabled>Print Wallets</button></p>
 
     <p class="box">If you would like to decode the mnemonic words for a seed, enter them at the bottom of
-    the <a href="https://iotaseed.io">main iotaseed.io website</a></p>
+    the <a href="https://iotaseed.io">main iotaseed.io page</a></p>
 
     <p class="box smallish">A seed represented as random words is safe. Such a seed
     is just as difficult to guess for a brute-force attacker as the fully 

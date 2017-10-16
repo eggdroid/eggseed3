@@ -4790,7 +4790,7 @@ function updateEntropy() {
   }
   if (window.isBulk) {
     //numberOfEvents = numberOfEvents * 3;
-    var percentageReport = 5;
+    var percentageReport = 10;
   } else {
     var percentageReport = 20;
   }
@@ -4833,6 +4833,21 @@ function generateMultipleSeeds(numberOfEvents) {
   }
 }
 
+function getWorker() {
+  var worker = new Worker('jscript/all-wallet.mini.js');
+
+  worker.addEventListener('message', function(e) {
+    var parts = e.data.split(" ");
+    var seed = parts[0];
+    var address = parts[1];
+    var nr = parseInt(parts[2]);
+    generatePaperWallet(seed, address, nr);
+    updateWalletOutputs(address, nr);
+  }, false);
+
+  return worker;
+}
+
 function doneGenerating(seed) {
   EntropyCollector.stop();
   EntropyCollector.eventTarget.removeEventListener('mousemove', updateEntropy);
@@ -4849,15 +4864,7 @@ function doneGenerating(seed) {
     updateWalletOutputs("Generating based on seed...", 0, true);
 
     if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
-      var worker = new Worker('jscript/all-wallet.mini.js');
-
-      worker.addEventListener('message', function(e) {
-        var parts = e.data.split(" ");
-        var address = parts[0];
-        var nr = parts[1];
-        generatePaperWallet(seed, address, nr);
-        updateWalletOutputs(address, nr);
-      }, false);
+      var worker = getWorker();
       worker.postMessage(seed + " " + 0);
     } else {
       var tag = document.createElement("script");
@@ -4866,6 +4873,12 @@ function doneGenerating(seed) {
       document.head.appendChild(tag);
     }
   }
+}
+
+function delayedPostMessage(seed, i, worker) {
+  setTimeout(function() {
+    worker.postMessage(seed + " " + i);
+  }, i * 500); // Prevent page from hanging
 }
 
 function doneGeneratingMultipleSeeds(seeds) {
@@ -4888,17 +4901,9 @@ function doneGeneratingMultipleSeeds(seeds) {
     updateWalletOutputs("Generating paper wallets based on seeds...", 0, true);
 
     if (typeof(Worker) !== "undefined" && /^http.*/.test(document.location.protocol)) {
-      var worker = new Worker('jscript/all-wallet.mini.js');
-
-      worker.addEventListener('message', function(e) {
-        var parts = e.data.split(" ");
-        var address = parts[0];
-        var nr = parts[1];
-        generatePaperWallet(seed, address, nr);
-        updateWalletOutputs(address, nr);
-      }, false);
+      var worker = getWorker();
       for (var i = 0; i < seeds.length; i++) {
-         worker.postMessage(seeds[i] + " " + i);
+        delayedPostMessage(seeds[i], i, worker);
       }
     } else {
       var tag = document.createElement("script");
@@ -4912,18 +4917,20 @@ function doneGeneratingMultipleSeeds(seeds) {
 function updateSeedOutputs(seedText, seedWordsText, disable) {
   disable = disable || false;
 
-  document.getElementById("restart").innerHTML = '<a href="" onClick="window.location.reload()">Start again</a>';
+  document.getElementById("restart").innerHTML = '<a href="" onClick="window.location.reload()">Start again</a>.';
   document.getElementById('entropy').innerHTML = '100';
 
   var output = document.getElementById("output");
-  var outputWords = document.getElementById("outputWords");
-  var color;
-
   output.innerHTML = seedText;
-  outputWords.innerHTML = seedWordsText;
+
+  if (!window.isBulk) {
+    var outputWords = document.getElementById("outputWords");
+    outputWords.innerHTML = seedWordsText;
+
+    document.getElementById("copyButtonWords").disabled = disable;
+  }
 
   document.getElementById("copyButton").disabled = disable;
-  document.getElementById("copyButtonWords").disabled = disable;
   document.getElementById("copyButtonReceiving").disabled = true;
   document.getElementById("printButton").disabled = true;
 }
@@ -4933,6 +4940,9 @@ function updateWalletOutputs(addressText, nr, disable) {
 
   if (typeof window.walletOutputs === 'undefined') {
     window.walletOutputs = [];
+  } else if (window.isBulk && nr < 11) {
+    window.walletOutputs[nr + 1] = window.walletOutputs[nr];
+    // Indicate that still going
   }
   window.walletOutputs[nr] = addressText;
 
