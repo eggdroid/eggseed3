@@ -14,7 +14,8 @@ It also provides 36 mnemonic words (35 + 1 parity) to represent the
 seed, that can be used to recover the seed at all times.
 
 All of these are then represented in a paper wallet that can be
-printed off for easy safe-keeping.
+printed off for easy safe-keeping. Now also supports bulk seed 
+generating, providing 12 paper wallets in one go.
 
 The mnemonic words are those in the standard BIP32 list.
 
