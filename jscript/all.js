@@ -4789,8 +4789,8 @@ function updateEntropy() {
     var numberOfEvents = 256;
   }
   if (window.isBulk) {
-    //numberOfEvents = numberOfEvents * 3;
-    var percentageReport = 10;
+    numberOfEvents = numberOfEvents * 3; // More entropy if more seeds
+    var percentageReport = 5;
   } else {
     var percentageReport = 20;
   }
