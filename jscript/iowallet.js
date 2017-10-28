@@ -19,10 +19,8 @@ function generateReceiving(seed, nr) {
 
 function delayedGenerateReceiving(seed, i) {
   setTimeout(function() {
-    console.log(seed);
-    console.log(i);
     generateReceiving(seed, i);
-  }, i * 3000); // Prevent page from hanging
+  }, i * 3000); // Prevent page from hanging if workers are not supported by browser
 }
 
 if (typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) {
